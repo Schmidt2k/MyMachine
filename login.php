@@ -19,11 +19,16 @@
 
         $_SESSION['Nome'] = $nome;
         header("location:index.php");
+
+        if($dados['Tipo']!=null){
+            $_SESSION['Tipo'] = $dados['Tipo'];
+        }
+
     }
     else{   
-        header("location:TelaLogin.php");
+        header("location:telaLogin.php");
         if($email!=$dados['Email'] || $senha!=$dados['Senha'] && $dados['Email']!=null){
-            $_SESSION['erro'] = "<div class='alert alert-danger' id='alert'> Ops! E-mail ou Senha inválidos!</div>";
+            $_SESSION['erro'] = "<div class='alert alert-danger'> Ops! E-mail ou Senha inválidos!</div>";
         }
     }
 ?>

@@ -1,18 +1,19 @@
 <?php //inspro.php
     include 'conexao.php'; 
     //recuperação de valores do formulário pelo método POST
-    $pro_categoria = trim($_POST['txtPro_Categoria']); 
-    $pro_nome = trim($_POST['txtPro_Nome']); 
-    $pro_descricao = trim($_POST['txtPro_Descricao']);
-    $pro_valor = trim($_POST['txtPro_Valor']);
-    $pro_quantidade = trim($_POST['txtPro_Quantidade']);
-    
-    if (!empty($pro_categoria) && !empty($pro_nome) && !empty($pro_descricao) && !empty($pro_valor)&& !empty($pro_quantidade)){
+    $Categoria = trim($_POST['txtPro_Categoria']); 
+    $Nome = trim($_POST['txtPro_Nome']); 
+    $Fabricante = trim($_POST['txtPro_Fabricante']);
+    $Quantidade = trim($_POST['txtPro_Quantidade']);
+    $Valor = trim($_POST['txtPro_Valor']);
+    $Imagem = trim($_POST['imagemProduto']);
+
+    if (!empty($Categoria) && !empty($Nome) && !empty($Fabricante) && !empty($Quantidade) && !empty($Valor) && !empty($Imagem)){
         $pdo = Conexao::conectar(); 
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-        $sql = "INSERT INTO produtos(pro_categoria, pro_nome, pro_descricao, pro_valor, pro_quantidade) VALUES(?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO produtos(Nome, Categoria, Fabricante, Quantidade, Valor, Imagem) VALUES(?, ?, ?, ?, ?, ?);";
         $query = $pdo->prepare($sql); 
-        $query->execute(array($pro_categoria, $pro_nome, $pro_descricao, $pro_valor, $pro_quantidade));
+        $query->execute(array($Nome, $Categoria, $Fabricante, $Quantidade, $Valor, $Imagem));
         Conexao::desconectar(); 
     }
     header("location:listarProdutos.php"); 
