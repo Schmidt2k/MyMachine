@@ -19,10 +19,19 @@ $sql = "SELECT * FROM Usuarios WHERE Email LIKE ?";
 $query = $pdo->prepare($sql);
 $query->execute(array($email));
 $dados = $query->fetch(PDO::FETCH_ASSOC);
+$email_search = $dados['Email'];
+$sql = "SELECT * FROM Usuarios WHERE CPF LIKE ?";
+$query = $pdo->prepare($sql);
+$query->execute(array($cpf));
+$dados = $query->fetch(PDO::FETCH_ASSOC);
+$cpf_search = $dados['CPF'];
 Conexao::desconectar();
 
 if ( !empty($nome) && !empty($cpf) && !empty($ender) && !empty($email) && !empty($senha) && !empty($cidade) && !empty($estado) && !empty($cep)) {
-    if ($dados['Email'] != $email && $dados['CPF'] != $cpf) {
+    if ($cpf_search!=null || $email_search !=null) {
+        header("location:telaCadastro.php");
+        $_SESSION['msg'] = "<div class='alert alert-danger'> Ops! conta já existente! <u><a href='telaLogin.php'>Entrar</a></u></div>";
+    } else {
         $pdo = Conexao::conectar();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = 'INSERT INTO Usuarios (Nome, CPF, Endereco, Email, Senha, Cidade, Estado, CEP) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
@@ -31,9 +40,6 @@ if ( !empty($nome) && !empty($cpf) && !empty($ender) && !empty($email) && !empty
         Conexao::desconectar();
         echo PDO::ERRMODE_EXCEPTION;
         header("location:telaLogin.php");
-    } else {
-        header("location:telaCadastro.php");
-        $_SESSION['msg'] = "<div class='alert alert-danger'> Ops! conta já existente! <u><a href='telaLogin.php'>Entrar</a></u></div>";
     }
 } else {
     header('location:telaCadastro.php');

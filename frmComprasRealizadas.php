@@ -3,13 +3,18 @@
 session_start();
 if (!isset($_SESSION['Nome']))
     header("Location:telaLogin.php");
-
-
+$cpf = $_SESSION['CPF'];
 // recuperar produtos do banco para listar
 include 'conexao.php';
-$pdo = Conexao::conectar();
-$sql = 'SELECT * FROM produtos ORDER BY Nome;';
-$listaProdutos = $pdo->query($sql);
+if(!isset($_SESSION['Tipo'])){
+    $pdo = Conexao::conectar();
+    $sql = "SELECT * FROM vendas WHERE CPF=$cpf";
+    $listaCompras = $pdo->query($sql);
+}else{
+    $pdo = Conexao::conectar();
+    $sql = "SELECT * FROM vendas";
+    $listaCompras = $pdo->query($sql);
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,53 +29,40 @@ $listaProdutos = $pdo->query($sql);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel='shortcut icon' href='imagens/icon_gerenciar.ico' type='image/x-icon' />
-    <title>Listar Produtos</title>
+    <title>Compras realizadas</title>
 </head>
 
 <body>
 
     <div class="table-responsive-xl col-md-12 mt-5">
-        <h3>PRODUTOS
-            <a class="produtos">
-                <a class="btn-floating btn-large waves-effect waves-light green" onclick="JavaScript:location.href='frmInsProdutos.php'"><i class="material-icons">add</i></a>
-            </a>
-        </h3>
+        <h3>COMPRAS REALIZADAS</h3>
         <table class="table border border-secondary">
             <tr class="bg-primary text-white">
                 <th>Produto</th>
                 <th>ID</th>
-                <th>Categoria</th>
                 <th>Nome</th>
-                <th>Fabricante</th>
+                <th>CPF</th>
+                <th>Endereço</th>
                 <th>Quantidade</th>
                 <th>Valor</th>
                 <th>Total</th>
-                <th scope="col" colspan="2">Funções</th>
+                <th scope="col" colspan="1">Data</th>
             </tr>
             <?php
-            foreach ($listaProdutos as $produto) {
+            foreach ($listaCompras as $vendas) {
             ?>
                 <tr>
-                    <td><img src='imagens/catalogo/<?php echo $produto['Imagem'] ?>'></td>
-                    <td class="align-middle"><?php echo $produto['ID']; ?></td>
-                    <td class="align-middle"><?php echo $produto['Categoria']; ?> </td>
-                    <td class="align-middle"><?php echo $produto['Nome']; ?></td>
-                    <td class="align-middle"><?php echo $produto['Fabricante']; ?></td>
-                    <td class="align-middle"><?php echo $produto['Quantidade']; ?></td>
-                    <td class="align-middle"><?php echo  number_format($produto['Valor'], 2, ',', '.'); ?></td>
-                    <?php $total = $produto['Quantidade'] * $produto['Valor']; ?>
+                    <td><img src='imagens/catalogo/<?php echo $vendas['Imagem'] ?>'></td>
+                    <td class="align-middle"><?php echo $vendas['ID_Compra']; ?></td>
+                    <td class="align-middle"><?php echo $vendas['Nome']; ?></td>
+                    <td class="align-middle"><?php echo $vendas['CPF']; ?> </td>
+                    <td class="align-middle"><?php echo $vendas['Endereco']; ?></td>
+                    <td class="align-middle"><?php echo $vendas['Quantidade']; ?></td>
+                    <td class="align-middle"><?php echo  number_format($vendas['Valor'], 2, ',', '.'); ?></td>
+                    <?php $total = $vendas['Quantidade'] * $vendas['Valor']; ?>
                     <td class="align-middle"><?php echo number_format($total, 2, ',', '.');
                                                 $total ?></td>
-
-
-                    <td class="align-middle"><a class="btn-floating btn-small waves-effect waves-light black" onclick="JavaScript:location.href='frmEdtProdutos.php?ID=' + 
-                           <?php echo $produto['ID']; ?>">
-                            <i class="material-icons">edit</i></a></td>
-
-                    <td class="align-middle"><a class="btn-floating btn-small waves-effect waves-light black" onclick="JavaScript:location.href='frmRemProdutos.php?ID=' + 
-                           <?php echo $produto['ID']; ?>">
-                            <i class="material-icons">delete_forever</i></a>
-                    </td>
+                    <td class="align-middle"><?php echo $vendas['Data_Compra']; ?></td>
                 </tr>
             <?php
             }

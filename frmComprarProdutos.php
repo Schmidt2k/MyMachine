@@ -28,24 +28,24 @@ Conexao::desconectar();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remoção de Produto</title>
+    <title>Comprar Produto</title>
 
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO' crossorigin='anonymous'>
     <link rel='stylesheet' href='Bootstrap/dist/bootstrap.min.css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel='shortcut icon' href='imagens/icon_gerenciar.ico' type='image/x-icon' />
 
-
 </head>
 
 <body>
     <div class="table-responsive-xl col-md-6 m-5">
         <div class="border border-secondary">
-            <div class="table border border-secondary bg-danger">
-                <h3 class='ml-2'>Remover Produto</h3>
+            <div class="table border border-secondary bg-primary">
+                <h3 class='ml-2'>Comprar Produto</h3>
             </div>
-            <form action="remProdutos.php" method="GET" id="frmRemProdutos" name="frmRemProdutos" class="col s12">
-            <img class="img-responsive float-right mr-5" src='imagens/catalogo/<?php echo $pro_imagem; ?>'>
+            <form action="compProdutos.php" method="GET" id="frmComprarProdutos" name="frmCompraProdutos" class="col s12">
+                <input type="hidden" name="pro_imagem" id="pro_imagem" value="<?php echo $pro_imagem;?>">
+                <img class="img-responsive float-right mr-5" src='imagens/catalogo/<?php echo $pro_imagem; ?>'>
                 <div class="form-group">
                     <label for="lblPro_Id">
                         <h5>ID:<?php echo $id; ?></h5>
@@ -69,25 +69,28 @@ Conexao::desconectar();
                 </div>
                 <div class="form-group">
                     <label for="lblPro_Valor">
+                        <input type="hidden" name="txtPro_Valor" id="txtPro_Valor" value="<?php echo $pro_valor; ?>">
                         <h5>Valor: <?php echo $pro_valor; ?></h5>
                     </label>
                 </div>
                 <div class="form-group">
-                    <label for="lblPro_Quantidade">
-                        <h5>Quantidade: <?php echo $pro_quantidade; ?></h5>
-                    </label>
-                </div>
+                    <label for="lblPro_Quantidade"><h5>Quantidade:</h5></label>
+                    <input type="hidden" name="pro_quantidade" id="pro_quantidade" value="<?php echo $pro_quantidade; ?>">
+                    <input type="number" min='1' max='<?php echo $pro_quantidade?>' id="txtPro_Quantidade" name="txtPro_Quantidade" onblur="calcular()" class='col-md-2' required>
+                    <small class='text-primary'> -> Em estoque:<?php echo $pro_quantidade?></small>
+                    </div>
                 <div class="form-group">
                     <label for="lblTotal">
-                        <h5>Total R$:<label id="total"></label><?php echo $total; ?><h5>
-                    </label>
+                        <h5>Total R$: <label id="total"></label>
+                    </label></h5>
                 </div>
+
                 <div class="form-group">
-                    <button class="btn btn-primary btn btn-danger" type="submit" name="btnGrv">Remover
-                        <i class="material-icons right align-middle">remove_circle</i>
+                    <button class="btn btn-primary btn btn-success" type="submit" name="btnGrv">Comprar
+                        <i class="material-icons right align-middle">attach_money</i>
                     </button>
 
-                    <button class="btn btn-primary btn btn-dark" type="button" name="btnVoltar" onclick="JavaScript:location.href='listarProdutos.php'">Voltar
+                    <button class="btn btn-primary btn btn-dark" type="button" name="btnVoltar" onclick="JavaScript:location.href='index.php'">Voltar
                         <i class="material-icons right align-middle">arrow_back</i>
                     </button>
                 </div>
@@ -102,3 +105,10 @@ Conexao::desconectar();
 </body>
 
 </html>
+
+<script>
+    function calcular() {
+        var valor1 = parseInt(document.getElementById('txtPro_Quantidade').value, 10);
+        document.getElementById("total").innerHTML = valor1 * <?php echo $pro_valor ?>;
+    }
+</script>

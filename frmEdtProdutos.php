@@ -83,11 +83,11 @@
                     <div class="form-group">
                         <br>
                         <button class="btn btn-primary btn btn-success" type="submit" name="btnGrv">Gravar
-                            <i class="material-icons right">save</i>
+                            <i class="material-icons right align-middle">save</i>
                         </button>
 
                         <button class="btn btn-primary btn btn-dark" type="button" name="btnVoltar" onclick="JavaScript:location.href='listarProdutos.php'">Voltar
-                            <i class="material-icons right">arrow_back</i> 
+                            <i class="material-icons right align-middle">arrow_back</i> 
                         </button>
                     </div>
               </form>  

@@ -55,11 +55,11 @@ $listaProdutos = $pdo->query($sql);
                         </a>
                         <div class="dropdown-menu">
 
-                            <a class="dropdown-item" href="#">Meu carrinho</a>
+                            <a class="dropdown-item" href="frmComprasRealizadas.php">Compras</a>
 
                             <?php if (isset($_SESSION['Tipo'])) { ?>
                                 <div class="dropdown-divider"> </div>
-                                <a class="dropdown-item" href="listarProdutos.php" target="_blank"> Gerenciar </a>
+                                <a class="dropdown-item" href="listarProdutos.php"> Gerenciar </a>
                             <?php
                             }
                             ?>
@@ -131,10 +131,10 @@ $listaProdutos = $pdo->query($sql);
 
     <!-- Barra central -->
     <a name='produtos'></a>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-warning wd-12">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary wd-12">
 
         <div class="table-responsive-xl col-md-12 mt-5 bg-light pt-3 border border-danger">
-            <div class='float-right'>
+            <div class='float-right border border-secondary mb-1'>
                 <select>
                     <option selected disabled>Selecione...</option>
                     <option>Todos</option>
@@ -145,7 +145,7 @@ $listaProdutos = $pdo->query($sql);
                 </select>
             </div>
             <table class="table border border-secondary">
-                <tr class="bg-primary text-black">
+                <tr class="bg-warning text-black">
                     <th>Produto</th>
                     <th>Categoria</th>
                     <th>Fabricante</th>
@@ -163,7 +163,7 @@ $listaProdutos = $pdo->query($sql);
                         <td class="align-middle"><?php echo $produto['Nome']; ?></td>
                         <td class="align-middle"><?php echo  number_format($produto['Valor'], 2, ',', '.'); ?></td>
 
-                        <td class="align-middle"><a class="btn" onclick="JavaScript:location.href='frmRemProdutos.php?ID=' + 
+                        <td class="align-middle"><a class="btn" onclick="JavaScript:location.href='frmComprarProdutos.php?ID=' + 
                            <?php echo $produto['ID']; ?>">
                                 <i class="material-icons">shopping_cart</i></a>
                         </td>
@@ -171,7 +171,6 @@ $listaProdutos = $pdo->query($sql);
                 <?php
                 }
                 ?>
-
             </table>
         </div>
     </nav>

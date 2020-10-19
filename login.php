@@ -13,11 +13,13 @@
     $query->execute(array($email));
     $dados = $query->fetch(PDO::FETCH_ASSOC);
     $nome = $dados['Nome'];
+    $cpf = $dados['CPF'];
     Conexao::desconectar();
 
     if($senha == md5($dados['Senha']) && $dados['Email']!=null){
 
         $_SESSION['Nome'] = $nome;
+        $_SESSION['CPF'] = $cpf;
         header("location:index.php");
 
         if($dados['Tipo']!=null){
